@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:htnemask/pages/maps.dart';
 import 'package:htnemask/widgets/stores.dart';
 
 class Home extends StatefulWidget {
+  final bool queueState;
+
+  const Home({Key key, this.queueState}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  bool queue = false;
 
   Widget getQueue(){
-    if (queue) {
+    if (widget.queueState) {
       return Container(
         padding: EdgeInsets.all(16),
         width: MediaQuery.of(context).size.width,
@@ -111,6 +115,7 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 40,
             ),
+
             Container(
               padding: EdgeInsets.all(16),
               child: Column(
@@ -133,9 +138,23 @@ class _HomeState extends State<Home> {
                         ),
                   ),
                   SizedBox(height: 10,),
-                  Stores(name: 'Trader Joes', callback: (){}, image: 'assets/images/traderjoes.png'),
+                  Stores(name: 'Trader Joes', callback: (){
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Home(queueState: true,)
+                        )
+                    );
+                  }, image: 'assets/images/traderjoes.png'),
                   SizedBox(height: 15,),
-                  Stores(name: 'Costco', callback: (){}, image: 'assets/images/costco.png')
+                  Stores(name: 'Costco', callback: (){
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Home(queueState: true,)
+                        )
+                    );
+                  }, image: 'assets/images/costco.png')
                 ],
               ),
             )
@@ -149,7 +168,14 @@ class _HomeState extends State<Home> {
         label: Text('Search Store', style: TextStyle(
           fontSize: 22
         ),),
-        onPressed: (){},
+        onPressed: (){
+          Navigator.pop(context);
+          Navigator.push(context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => MapPage()
+          )
+          );
+        },
 
       ),
       bottomNavigationBar: BottomAppBar(

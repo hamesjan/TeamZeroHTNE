@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'OpenSans',
         backgroundColor: Colors.blue
       ),
-      home: Home(),
+      home: Home(queueState: false,),
     );
   }
 }
