@@ -5,15 +5,14 @@ class Stores extends StatelessWidget {
   final String name;
   final VoidCallback callback;
   final String image;
+  final String EWT;
 
-  const Stores({Key key, this.name, this.callback, this.image}) : super(key: key);
+  const Stores({Key key, this.name, this.callback, this.image, this.EWT}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.greenAccent,
-      child: InkWell(
-        onTap: () => callback, // handle your onTap here
+    return FlatButton(
+        onPressed: () => callback, // handle your onTap here
         child: Container(
           padding: EdgeInsets.all(16),
           child: Row(
@@ -31,9 +30,15 @@ class Stores extends StatelessWidget {
               SizedBox(
                 width: 25,
               ),
-              Text(name, style: TextStyle(
-                fontSize: 22
-              ),),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(name, style: TextStyle(
+                      fontSize: 22
+                  ),),
+                  Text('Estimated Wait: $EWT')
+                ],
+              ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -55,7 +60,6 @@ class Stores extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

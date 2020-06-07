@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:htnemask/pages/maps.dart';
+import 'package:htnemask/widgets/custom_buttons.dart';
 import 'package:htnemask/widgets/stores.dart';
+import 'package:htnemask/pages/loading.dart';
 
 class Home extends StatefulWidget {
   final bool queueState;
@@ -16,50 +18,87 @@ class _HomeState extends State<Home> {
 
   Widget getQueue(){
     if (widget.queueState) {
-      return Container(
-        padding: EdgeInsets.all(16),
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                end: Alignment.bottomCenter,
-                begin: Alignment.topCenter,
-                colors: [
-                  Colors.blue,
-                  Colors.white
-                ]
+      return Column(
+        children: <Widget>[
+      Container(
+      padding: EdgeInsets.all(16),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+          gradient: LinearGradient(
+          end: Alignment.bottomCenter,
+          begin: Alignment.topCenter,
+          colors: [
+            Colors.blue,
+            Colors.white
+          ]
             ),
             color: Colors.blueAccent,
             borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(200),
-                bottomRight: Radius.circular(200)
+            bottomLeft: Radius.circular(200),
+            bottomRight: Radius.circular(200)
             )
-        ),
-        child: Column(
+          ),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(width: MediaQuery.of(context).size.width,),
-            Text('Queue', style: TextStyle(
+                Container(width: MediaQuery.of(context).size.width,),
+                Text('Queue', style: TextStyle(
                 fontSize: 44,
-            ),),
-            SizedBox(
-              height: 10,
+                ),),
+                SizedBox(
+                height: 10,
+                ),
+                Text('Queue Number: 3'),
+                SizedBox(
+                height: 10,
+                ),
+                Text('Store: Trader Joes',style: TextStyle(
+                  fontSize: 22
+                ),),
+                SizedBox(
+                height: 10,
+                ),
+                Text(''),
+                SizedBox(
+                height: 20,
+                )
+              ],
             ),
-            Text('Queue Number: 3'),
-            SizedBox(
-              height: 10,
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                Text('Enter the Store now!', style: TextStyle(
+                  fontSize: 22
+                ),),
+                SizedBox(height: 10,),
+                CustomButton(
+                  text: 'Confirm',
+                  callback: (){
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (BuildContext context) => Loading()
+                    ));
+                  },
+                  color: Colors.green,
+                ),
+                SizedBox(height: 10,),
+                CustomButton(
+                  text: 'Cancel',
+                  callback: (){},
+                  color: Colors.red,
+                )
+              ],
             ),
-            Text('Store: Trader Joes'),
-            SizedBox(
-              height: 10,
-            ),
-            Text('Estimated Wait: 5 min'),
-            SizedBox(
-              height: 20,
-            )
+          ),
 
-          ],
-        ),
+        ],
       );
+
     } else {
       return Container(
         padding: EdgeInsets.all(16),
@@ -107,38 +146,35 @@ class _HomeState extends State<Home> {
 
       appBar: AppBar(
         elevation: 0,
+        title: Image(
+          image: AssetImage(
+            'assets/images/app_logo.png'
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             getQueue(),
-            SizedBox(
-              height: 40,
-            ),
 
             Container(
               padding: EdgeInsets.all(16),
               child: Column(
                 children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.greenAccent,
-                      borderRadius: BorderRadius.all(Radius.circular(25))
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child:
-                        Column(
+
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(Icons.people),
+                            SizedBox(width: 10,),
                             Text('Quick Queue',style: TextStyle(
                                 fontSize: 22,
                             ),),
                           ],
                         ),
-                  ),
+                  Divider(thickness: 3,),
                   SizedBox(height: 10,),
-                  Stores(name: 'Trader Joes', callback: (){
+                  Stores(name: 'Trader Joes',EWT: '5 min', callback: (){
                     Navigator.pop(context);
                     Navigator.push(context,
                         MaterialPageRoute(
@@ -146,15 +182,49 @@ class _HomeState extends State<Home> {
                         )
                     );
                   }, image: 'assets/images/traderjoes.png'),
-                  SizedBox(height: 15,),
-                  Stores(name: 'Costco', callback: (){
+                  SizedBox(height: 7,),
+                  Divider(thickness: 3,),
+                  SizedBox(height: 8,),
+                  Stores(name: 'Costco', EWT: '9 min', callback: (){
                     Navigator.pop(context);
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => Home(queueState: true,)
                         )
                     );
-                  }, image: 'assets/images/costco.png')
+                  }, image: 'assets/images/costco.png'),
+                  SizedBox(height: 7,),
+                  Divider(thickness: 3,),
+                  Stores(name: 'S-Mart', EWT: '3 min', callback: (){
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Home(queueState: true,)
+                        )
+                    );
+                  }, image: 'assets/images/smart.png'),
+                  SizedBox(height: 7,),
+                  Divider(thickness: 3,),
+                  Stores(name: 'Vons', EWT: '1 min', callback: (){
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Home(queueState: true,)
+                        )
+                    );
+                  }, image: 'assets/images/vons.png'),
+                  SizedBox(height: 7,),
+                  Divider(thickness: 3,),
+                  Stores(name: 'CVS Pharmacy', EWT: '0 min', callback: (){
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Home(queueState: true,)
+                        )
+                    );
+                  }, image: 'assets/images/cvs.png'),
+                  SizedBox(height: 7,),
+                  Divider(thickness: 3,),
                 ],
               ),
             )
